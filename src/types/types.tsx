@@ -4,3 +4,9 @@ export interface EmployeeType {
     firstName: string;
     lastName: string;
 }
+
+export interface EmployeeStateType {
+    firstName: string;
+    lastName: string;
+    email: string
+}
