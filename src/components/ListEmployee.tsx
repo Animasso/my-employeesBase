@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react"
 import { EmployeeType } from "../types/types"
-import { listEmployees } from "./services/EmployeeService"
+import { deleteEmployee, listEmployees } from "./services/EmployeeService"
 import { useNavigate } from "react-router-dom"
 
 const ListEmployee = () => {
 
     const [employees, setEmployees] = useState<EmployeeType[]>([])
     const nagivate = useNavigate()
+    const updateEmployee = (id: number) => {
+        nagivate(`/update-employee/${id}`)
+    }
     useEffect(() => {
+        getAllEmployees()
+    }, [])
+    const getAllEmployees = () => {
         listEmployees().then((response) => {
             setEmployees(response.data)
         }).catch((error) => {
             console.error("Error fetching employees:", error)
         })
-    }, [])
+    }
     const addNewEmployee = () => {
         nagivate("/add-new-employee")
     }
-
+    const removeEmployee = (id: number) => {
+        deleteEmployee(id).then((response) => {
+            getAllEmployees()
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
     return (
         <div className=" w-full px-12">
 
@@ -30,6 +42,8 @@ const ListEmployee = () => {
                         <th scope="col" className="px-6 py-3 ">Employee First Name</th>
                         <th scope="col" className="px-6 py-3 ">Employee Last Name</th>
                         <th scope="col" className="px-6 py-3 ">Employee Email </th>
+                        <th scope="col" className="px-6 py-3 ">Actions </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +53,12 @@ const ListEmployee = () => {
                             <td className="px-6 py-4 ">{employee.firstName}</td>
                             <td className="px-6 py-4 ">{employee.lastName}</td>
                             <td className="px-6 py-4 ">{employee.email}</td>
+                            <td className="px-6 py-4 ">
+                                <div className=" space-x-5">
+                                    <button onClick={() => updateEmployee(employee.id)} className=" bg-cyan-500 hover:bg-cyan-600 text-xs text-white px-3 rounded-lg py-3">Update</button>
+                                    <button onClick={() => removeEmployee(employee.id)} className=" bg-red-600 hover:bg-red-700 text-xs text-white px-3 rounded-lg py-3">Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
