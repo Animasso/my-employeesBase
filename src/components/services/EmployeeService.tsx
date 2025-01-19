@@ -1,7 +1,8 @@
 import axios from "axios";
-import { EmployeeStateType } from "../../types/types";
+import { EmployeeStateType, FormLogin, FormRegister } from "../../types/types";
 
 const REST_API_BASE_URL = 'http://localhost:8080/api/employees'
+const API_URL = "http://localhost:8080/api/auth";
 export const listEmployees = () => {
     return axios.get(REST_API_BASE_URL)
 
@@ -22,3 +23,10 @@ export const getForUpdateEmployee = (employeeId: number) => {
 export const updateEmployee = (employeeId: number, employee: EmployeeStateType) => {
     return axios.put(`${REST_API_BASE_URL}/${employeeId}`, employee)
 }
+export const registerUser = async (formData: FormRegister) => {
+    return await axios.post(`${API_URL}/api/auth/register`, formData);
+};
+
+export const loginUser = async (formData: FormLogin) => {
+    return await axios.post(`${API_URL}/api/auth/login`, formData);
+};

@@ -15,6 +15,7 @@ const ListEmployee = () => {
     }, [])
     const getAllEmployees = () => {
         listEmployees().then((response) => {
+            console.log('response:', response)
             setEmployees(response.data)
         }).catch((error) => {
             console.error("Error fetching employees:", error)
@@ -25,6 +26,7 @@ const ListEmployee = () => {
     }
     const removeEmployee = (id: number) => {
         deleteEmployee(id).then((response) => {
+            console.log('response:', response)
             getAllEmployees()
         }).catch((error) => {
             console.error('Error:', error);
@@ -47,20 +49,28 @@ const ListEmployee = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {employees.map((employee) => (
-                        <tr className="px-6 py-4 border-b-2 odd:bg-slate-300" key={employee.id}>
-                            <td className="px-6 py-4 font-extrabold ">{employee.id}</td>
-                            <td className="px-6 py-4 ">{employee.firstName}</td>
-                            <td className="px-6 py-4 ">{employee.lastName}</td>
-                            <td className="px-6 py-4 ">{employee.email}</td>
-                            <td className="px-6 py-4 ">
-                                <div className=" space-x-5">
-                                    <button onClick={() => updateEmployee(employee.id)} className=" bg-cyan-500 hover:bg-cyan-600 text-xs text-white px-3 rounded-lg py-3">Update</button>
-                                    <button onClick={() => removeEmployee(employee.id)} className=" bg-red-600 hover:bg-red-700 text-xs text-white px-3 rounded-lg py-3">Delete</button>
-                                </div>
-                            </td>
+
+                    {employees.length > 0 ? (
+                        employees.map((employee) => (
+                            <tr className="px-6 py-4 border-b-2 odd:bg-slate-300" key={employee.id}>
+                                <td className="px-6 py-4 font-extrabold ">{employee.id}</td>
+                                <td className="px-6 py-4 ">{employee.firstName}</td>
+                                <td className="px-6 py-4 ">{employee.lastName}</td>
+                                <td className="px-6 py-4 ">{employee.email}</td>
+                                <td className="px-6 py-4 ">
+                                    <div className=" space-x-5">
+                                        <button onClick={() => updateEmployee(employee.id)} className=" bg-cyan-500 hover:bg-cyan-600 text-xs text-white px-3 rounded-lg py-3">Update</button>
+                                        <button onClick={() => removeEmployee(employee.id)} className=" bg-red-600 hover:bg-red-700 text-xs text-white px-3 rounded-lg py-3">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={5} className="px-6 py-4 text-center">No employees found.</td>
                         </tr>
-                    ))}
+                    )}
+
                 </tbody>
             </table>
         </div>

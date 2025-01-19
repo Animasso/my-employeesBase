@@ -8,5 +8,21 @@ export interface EmployeeType {
 export interface EmployeeStateType {
     firstName: string;
     lastName: string;
-    email: string
+    email: string;
+}
+
+export interface FormLogin {
+    email: string;
+    password: string;
+}
+
+export interface FormRegister {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
+export interface LoginAndRegisterProps {
+    type: "login" | "register";
 }
